@@ -417,6 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0997e0a7d8965754aa4330f5bf47e89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BubbleFriend.TimeManager
+  _isUsingSystemTime: 1
+  _debugTime: 0
   _dayColor:
     serializedVersion: 2
     key0: {r: 0.07524917, g: 0.34487998, b: 0.8396226, a: 1}

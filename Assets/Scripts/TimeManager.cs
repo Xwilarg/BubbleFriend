@@ -9,6 +9,12 @@ namespace BubbleFriend
         public static TimeManager Instance { private set; get; }
 
         [SerializeField]
+        private bool _isUsingSystemTime;
+
+        [SerializeField]
+        private float _debugTime;
+
+        [SerializeField]
         private Gradient _dayColor;
 
         [SerializeField]
@@ -18,22 +24,36 @@ namespace BubbleFriend
 
         private Camera _cam;
 
+        public float CurrentTime
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (_isUsingSystemTime)
+#endif
+                {
+                    var now = DateTime.Now;
+                    return now.Hour + (now.Minute / 60f);
+                }
+                return _debugTime;
+            }
+        }
+
         private void Awake()
         {
             Instance = this;
             _cam = Camera.main;
-            _midday = (_dayEnd - _dayStart) / 2f;
+            _midday = (_dayEnd - _dayStart) / 2f + _dayStart;
             _durationMorning = _midday - _dayStart;
             _durationAfternoon = _dayEnd - _midday;
         }
 
         private void Update()
         {
-            var now = DateTime.Now;
-            var nowNumeric = now.Hour + (now.Minute / 60f);
+            var nowNumeric = CurrentTime;
             if (nowNumeric < _dayStart || nowNumeric >= _dayEnd) _cam.backgroundColor = _dayColor.Evaluate(1f);
-            else if (nowNumeric < _midday) _cam.backgroundColor = _dayColor.Evaluate(nowNumeric - _dayStart / _durationMorning);
-            else _cam.backgroundColor = _dayColor.Evaluate(_dayEnd - nowNumeric / _durationAfternoon);
+            else if (nowNumeric < _midday) _cam.backgroundColor = _dayColor.Evaluate(1f - (nowNumeric - _dayStart) / _durationMorning);
+            else _cam.backgroundColor = _dayColor.Evaluate(1f - (_dayEnd - nowNumeric) / _durationAfternoon);
         }
     }
 }
