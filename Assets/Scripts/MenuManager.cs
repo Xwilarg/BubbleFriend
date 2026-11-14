@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Sketch.Translation;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace BubbleFriend
 {
@@ -6,6 +10,9 @@ namespace BubbleFriend
     {
         [SerializeField]
         private Animator _collapseAnim, _settingsAnim;
+
+        [SerializeField]
+        private TMP_Dropdown _languageDropdown;
 
         private bool _isCollapsed = false;
         private bool _isSettings = false;
@@ -30,6 +37,12 @@ namespace BubbleFriend
             }
             _isSettings = !_isSettings;
             _settingsAnim.SetBool("IsCollapsed", _isSettings);
+        }
+
+        public void UpdateLanguage(int value)
+        {
+            Debug.Log(Translate.Instance.CurrentLanguage);
+            Translate.Instance.CurrentLanguage = _languageDropdown.options[value].text;
         }
     }
 }
