@@ -28,7 +28,7 @@ namespace BubbleFriend.Bubble
 
         private Camera _cam;
 
-        public float CurrentTime
+        public DateTime CurrentTime
         {
             get
             {
@@ -36,10 +36,9 @@ namespace BubbleFriend.Bubble
                 if (_isUsingSystemTime)
 #endif
                 {
-                    var now = DateTime.Now;
-                    return now.Hour + (now.Minute / 60f);
+                    return DateTime.Now;
                 }
-                return _debugTime;
+                return new DateTime(0, 0, 0, Mathf.FloorToInt(_debugTime / 60), Mathf.FloorToInt(_debugTime % 60), 0);
             }
         }
 
@@ -54,10 +53,13 @@ namespace BubbleFriend.Bubble
 
         private void Update()
         {
-            var nowNumeric = CurrentTime;
+            var now = CurrentTime;
+            var nowNumeric = now.Hour + (now.Minute / 60f);
             if (nowNumeric < _dayStart || nowNumeric >= _dayEnd) _cam.backgroundColor = _dayColor.Evaluate(1f);
             else if (nowNumeric < _midday) _cam.backgroundColor = _dayColor.Evaluate(1f - (nowNumeric - _dayStart) / _durationMorning);
             else _cam.backgroundColor = _dayColor.Evaluate(1f - (_dayEnd - nowNumeric) / _durationAfternoon);
+
+            _timeDisplay.text = $"{now.Hour:00}:{now.Minute:00}";
         }
     }
 }
