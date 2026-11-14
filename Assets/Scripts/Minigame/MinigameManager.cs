@@ -1,5 +1,7 @@
-﻿using Unity.Scripting.LifecycleManagement;
+﻿using Sketch.Common;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BubbleFriend.Minigame
 {
@@ -28,10 +30,19 @@ namespace BubbleFriend.Minigame
         [SerializeField]
         private Texture2D _cleaningCursor;
 
+        [SerializeField]
+        private PlayerInput _pInput;
+
+        private Vector2 _lastPos;
+
+        private int _dirtLayerMask;
+        private int _dirtCount = 0;
+
         private void Awake()
         {
             Instance = this;
             _cam = Camera.main;
+            _dirtLayerMask = LayerMask.GetMask("Dirt");
         }
 
         private void Update()
@@ -43,21 +54,69 @@ namespace BubbleFriend.Minigame
             }
             _cam.orthographicSize = Mathf.Lerp(Minigame == Minigame.None ? 3f : 5f, Minigame == Minigame.None ? 5f : 3f, _timer);
 
+            if (Minigame == Minigame.Cleaning)
+            {
+                var newPos = GetWorldMousePos(_cam);
+                if (newPos != null && newPos != _lastPos)
+                {
+                    var eff = Vector2.Distance(newPos.Value, _lastPos);
+                    var dirts = Physics2D.OverlapCircleAll(newPos.Value, .5f, _dirtLayerMask);
+                    foreach (var dirt in dirts)
+                    {
+                        var newScale = dirt.transform.localScale.x - (eff * .01f);
+                        if (newScale < .1f)
+                        {
+                            _dirtCount--;
+                            Destroy(dirt.gameObject);
+                            if (_dirtCount == 0)
+                            {
+                                _timer = 0f;
+                                Minigame = Minigame.None;
+                            }
+                        }
+                        else dirt.transform.localScale = Vector3.one * newScale;
+                    }
+                    _lastPos = newPos.Value;
+                }
+            }
         }
 
         public void StartCleaningMinigame()
         {
+            if (Minigame != Minigame.None) return;
+
             Minigame = Minigame.Cleaning;
             _timer = 0f;
             Cursor.SetCursor(_cleaningCursor, Vector2.zero, CursorMode.Auto);
 
-            var max = Mathf.Clamp(1, 10, BubbleManager.Instance.CleaningNeed * 10f);
-            for (int i = 0; i < max; i++)
+            _dirtCount = Mathf.Clamp(Mathf.RoundToInt(BubbleManager.Instance.CleaningNeed * 10f), 1, 10);
+            for (int i = 0; i < _dirtCount; i++)
             {
                 var dirt = Instantiate(_dirtPrefab, _bubble);
                 dirt.transform.SetLocalPositionAndRotation(Random.insideUnitCircle * Random.Range(0f, 3f), Quaternion.Euler(0f, 0f, Random.value * Mathf.PI * 2f));
                 dirt.transform.localScale = Vector3.one * Random.Range(.3f, .4f);
             }
+
+            _lastPos = GetWorldMousePos(_cam) ?? Vector2.zero;
+        }
+
+        private Vector2? GetWorldMousePos(Camera cam)
+        {
+            var mousePos = CursorUtils.GetPosition(_pInput);
+            if (mousePos != null)
+            {
+                Gizmos.color = Color.white;
+                var worldPos = Camera.main.ScreenToWorldPoint(mousePos.Value);
+                worldPos.z = 0f;
+                return worldPos;
+            }
+            return null;
+        }
+
+        private void OnDrawGizmos()
+        {
+            var pos = GetWorldMousePos(Camera.main);
+            if (pos != null) Gizmos.DrawWireSphere(pos.Value, .25f);
         }
     }
 }

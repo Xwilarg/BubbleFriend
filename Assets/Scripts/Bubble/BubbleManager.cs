@@ -28,7 +28,7 @@ namespace BubbleFriend
         [SerializeField, Tooltip("Debug only, do not modify")]
         private Dictionary<Need, int> _needs = new();
 
-        public float CleaningNeed => _needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat;
+        public float CleaningNeed => 1f - (_needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat);
 
         private float _checkTimer = 1f;
 
@@ -57,6 +57,11 @@ namespace BubbleFriend
                 }
                 _checkTimer = 1f;
             }
+        }
+
+        public void ClearNeed(Need need)
+        {
+            _needs[need] = _needInfo[need].TimeToDepleat;
         }
     }
 }
