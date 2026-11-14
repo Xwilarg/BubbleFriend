@@ -1,4 +1,5 @@
-﻿using Sketch.Common;
+﻿using BubbleFriend.Play;
+using Sketch.Common;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +9,8 @@ namespace BubbleFriend.Minigame
     public enum Minigame
     {
         None,
-        Cleaning
+        Cleaning,
+        Play
     }
 
     [AutoStaticsCleanup]
@@ -52,7 +54,7 @@ namespace BubbleFriend.Minigame
                 _timer += Time.deltaTime;
                 if (_timer > 1f) _timer = 1f;
             }
-            _cam.orthographicSize = Mathf.Lerp(Minigame == Minigame.None ? 3f : 5f, Minigame == Minigame.None ? 5f : 3f, _timer);
+            _cam.orthographicSize = Mathf.Lerp(Minigame != Minigame.Cleaning ? 3f : 5f, Minigame != Minigame.Cleaning ? 5f : 3f, _timer);
 
             if (Minigame == Minigame.Cleaning)
             {
@@ -106,7 +108,15 @@ namespace BubbleFriend.Minigame
             MenuManager.Instance.ToggleFlavorMenu(false);
         }
 
-        private Vector2? GetWorldMousePos(Camera cam)
+        public void StartPlay()
+        {
+            if (Minigame != Minigame.None) return;
+
+            Minigame = Minigame.Play;
+            PlayManager.Instance.StartGame();
+        }
+
+        public Vector2? GetWorldMousePos(Camera cam)
         {
             var mousePos = CursorUtils.GetPosition(_pInput);
             if (mousePos != null)
