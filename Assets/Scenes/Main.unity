@@ -647,7 +647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -15}
+  m_AnchoredPosition: {x: 0, y: -14.999985}
   m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &430790730
@@ -2792,6 +2792,7 @@ GameObject:
   - component: {fileID: 1204694724}
   - component: {fileID: 1204694725}
   - component: {fileID: 1204694726}
+  - component: {fileID: 1204694727}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2932,6 +2933,18 @@ MonoBehaviour:
   _dirtPrefab: {fileID: 7188854095653493055, guid: b8c69c2341c884b4fa5b935f7038ca0e, type: 3}
   _cleaningCursor: {fileID: 2800000, guid: 5121720e71b165b45ac1e87c41c2b92b, type: 3}
   _pInput: {fileID: 155572977}
+--- !u!114 &1204694727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204694720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0710929bac4d0834e828392b843a1605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BubbleFriend.Play.PlayManager
 --- !u!1 &1281167722
 GameObject:
   m_ObjectHideFlags: 0
@@ -4604,12 +4617,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5712959122012955994, guid: 478039f6bf3761446ac4c6356149d8c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 478039f6bf3761446ac4c6356149d8c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.27, y: 6.77}
+  m_Size: {x: 10, y: 10}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
