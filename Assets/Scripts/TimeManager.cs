@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace BubbleFriend
+namespace BubbleFriend.Bubble
 {
     public class TimeManager : MonoBehaviour
     {
