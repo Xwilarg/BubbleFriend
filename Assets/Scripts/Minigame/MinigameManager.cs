@@ -101,6 +101,11 @@ namespace BubbleFriend.Minigame
             _lastPos = GetWorldMousePos(_cam) ?? Vector2.zero;
         }
 
+        public void GiveFood(int flavor)
+        {
+            MenuManager.Instance.ToggleFlavorMenu(false);
+        }
+
         private Vector2? GetWorldMousePos(Camera cam)
         {
             var mousePos = CursorUtils.GetPosition(_pInput);
