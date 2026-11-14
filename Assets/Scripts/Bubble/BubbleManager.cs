@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
@@ -9,6 +11,13 @@ namespace BubbleFriend
         Clean,
         Feed,
         Play
+    }
+
+    public enum Flavor
+    {
+        Lemon,
+        Cardamom,
+        Chestnut
     }
 
     [System.Serializable]
@@ -28,6 +37,8 @@ namespace BubbleFriend
         [SerializeField, Tooltip("Debug only, do not modify")]
         private Dictionary<Need, int> _needs = new();
 
+        private Flavor _currentTaste;
+
         public float CleaningNeed => 1f - (_needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat);
 
         private float _checkTimer = 1f;
@@ -40,6 +51,17 @@ namespace BubbleFriend
             foreach (var ni in _needInfo)
             {
                 _needs.Add(ni.Key, ni.Value.TimeToDepleat);
+            }
+
+            _currentTaste = GetRandomFlavor();
+        }
+
+        private IEnumerator ChangeTasteCoroutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(Random.Range(600, 2000));
+                _currentTaste = GetRandomFlavor();
             }
         }
 
@@ -57,6 +79,12 @@ namespace BubbleFriend
                 }
                 _checkTimer = 1f;
             }
+        }
+
+        private Flavor GetRandomFlavor()
+        {
+            var flavors = System.Enum.GetValues(typeof(Flavor)).Cast<Flavor>().ToArray();
+            return flavors[Random.Range(0, flavors.Length)];
         }
 
         public void ClearNeed(Need need)
