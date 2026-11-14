@@ -16,10 +16,22 @@ namespace BubbleFriend.Play
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public void Setup(int id, Vector2 dir)
+        public void SetDir(Vector2 dir)
         {
             _dir = dir;
+        }
+
+        public void SetId(int id)
+        {
             _id = id;
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            sr.color = _id switch
+            {
+                0 => Color.red,
+                1 => Color.green,
+                2 => Color.blue,
+                _ => Color.white
+            };
         }
 
         private void Update()
@@ -32,7 +44,18 @@ namespace BubbleFriend.Play
             _isLocked = true;
             _rb.bodyType = RigidbodyType2D.Kinematic;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            transform.position = PlayManager.Instance.GetGridPos(transform.position);
+            var p = PlayManager.Instance.GetGridPos(transform.position);
+            transform.position = p.Item1;
+            if (!PlayManager.Instance.RegisterToGrid(p.Item2, gameObject))
+            {
+                Debug.LogWarning($"Failed to register bubble on grid at {p.Item1} => {p.Item2}");
+                Destroy(gameObject);
+            }
+            else
+            {
+                if (p.Item2.y >= 8)
+                    PlayManager.Instance.EndGame();
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

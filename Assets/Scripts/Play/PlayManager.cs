@@ -1,4 +1,5 @@
 ﻿using BubbleFriend.Minigame;
+using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,6 +25,8 @@ namespace BubbleFriend.Play
         private int _startY = 5;
         private int _startX = 3;
 
+        private Dictionary<Vector2Int, GameObject> _grid = new();
+
         private void Awake()
         {
             Instance = this;
@@ -34,6 +37,7 @@ namespace BubbleFriend.Play
         {
             _canShoot = true;
             _playBubbleInstance = Instantiate(_playBubblePrefab, _launchPoint.transform.position, Quaternion.identity);
+            _playBubbleInstance.GetComponent<PlayBubbleController>().SetId(Random.Range(0, 3));
         }
 
         public void Shoot(Vector2 mousePos)
@@ -41,15 +45,54 @@ namespace BubbleFriend.Play
             _canShoot = false;
 
             var pbc = _playBubbleInstance.GetComponent<PlayBubbleController>();
-            pbc.Setup(
-                Random.Range(0, 3),
+            pbc.SetDir(
                 (mousePos - (Vector2)_playBubbleInstance.transform.position).normalized
             );
         }
 
         public void StartGame()
         {
+            var xMax = (_startX * 2 + 1) * 2 + 1;
+            for (int y = 0; y < 6; y++)
+            {
+                for (var x = 0; x < xMax; x++)
+                {
+                    if (y == 0 && Random.Range(0, 100) < 90)
+                    {
+                        var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .25f, _startY - y - .25f), Quaternion.identity);
+                        var c = bubble.GetComponent<PlayBubbleController>();
+                        c.SetId(Random.Range(0, 3));
+                        c.LockOnGrid();
+                    }
+                    if (y == 0 && Random.Range(0, 100) < 50)
+                    {
+                        if (_grid.ContainsKey(new(x - 1, y - 1)) || _grid.ContainsKey(new(x, y - 1)))
+                        {
+                            var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .5f, _startY - y - .75f), Quaternion.identity);
+                            var c = bubble.GetComponent<PlayBubbleController>();
+                            c.SetId(Random.Range(0, 3));
+                            c.LockOnGrid();
+                        }
+                    }
+                }
+            }
+
             SpawnBubble();
+        }
+
+        public void EndGame()
+        {
+            foreach (var obj in _grid)
+            {
+                Destroy(obj.Value);
+            }
+            if (_playBubbleInstance != null)
+            {
+                Destroy(_playBubbleInstance);
+            }
+            _grid.Clear();
+
+            MinigameManager.Instance.Minigame = Minigame.Minigame.None;
         }
 
         private float SqrtDistance(Vector2 a, Vector2 b) // Distance without sqrt for optimization
@@ -57,9 +100,18 @@ namespace BubbleFriend.Play
             return Mathf.Pow(a.x - b.x, 2f) + Mathf.Pow(a.y - b.y, 2f);
         }
 
-        public Vector2 GetGridPos(Vector2 pos)
+        public bool RegisterToGrid(Vector2Int pos, GameObject obj)
+        {
+            if (_grid.ContainsKey(pos)) return false;
+            _grid.Add(pos, obj);
+            _playBubbleInstance = null;
+            return true;
+        }
+
+        public (Vector2, Vector2Int) GetGridPos(Vector2 pos)
         {
             Vector2 closest = Vector2.zero;
+            Vector2Int gridPos = Vector2Int.zero;
             float dist = float.MaxValue;
 
             // There is probably a wayyyyyyyyyyyyy better way to do this but I have no idea how to do the math
@@ -74,6 +126,7 @@ namespace BubbleFriend.Play
                     {
                         closest = p;
                         dist = pDist;
+                        gridPos = new(x, y * 2 + 1);
                     }
                     if (x < xMax - 1)
                     {
@@ -83,12 +136,13 @@ namespace BubbleFriend.Play
                         {
                             closest = p2;
                             dist = p2Dist;
+                            gridPos = new(x, y * 2);
                         }
                     }
                 }
             }
 
-            return closest;
+            return (closest, gridPos);
         }
 
         private void OnDrawGizmos()
