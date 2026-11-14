@@ -23,6 +23,9 @@ namespace BubbleFriend.Minigame
         [SerializeField]
         private GameObject _dirtPrefab;
 
+        [SerializeField]
+        private Texture2D _cleaningCursor;
+
         private void Awake()
         {
             Instance = this;
@@ -43,6 +46,7 @@ namespace BubbleFriend.Minigame
         {
             Minigame = Minigame.Cleaning;
             _timer = 0f;
+            Cursor.SetCursor(_cleaningCursor, Vector2.zero, CursorMode.Auto);
 
             var max = Mathf.Clamp(1, 10, BubbleManager.Instance.CleaningNeed * 10f);
             for (int i = 0; i < max; i++)

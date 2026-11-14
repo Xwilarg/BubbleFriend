@@ -2496,6 +2496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BubbleFriend.Minigame.MinigameManager
   _bubble: {fileID: 2064684757}
   _dirtPrefab: {fileID: 7188854095653493055, guid: b8c69c2341c884b4fa5b935f7038ca0e, type: 3}
+  _cleaningCursor: {fileID: 2800000, guid: 5121720e71b165b45ac1e87c41c2b92b, type: 3}
 --- !u!1 &1281167722
 GameObject:
   m_ObjectHideFlags: 0
