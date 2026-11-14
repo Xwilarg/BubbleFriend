@@ -66,7 +66,7 @@ namespace BubbleFriend.Play
                     }
                     if (y == 0 && Random.Range(0, 100) < 50)
                     {
-                        if (_grid.ContainsKey(new(x - 1, y - 1)) || _grid.ContainsKey(new(x, y - 1)))
+                        if (_grid.ContainsKey(new(x - 1, y)) || _grid.ContainsKey(new(x, y)))
                         {
                             var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .5f, _startY - y - .75f), Quaternion.identity);
                             var c = bubble.GetComponent<PlayBubbleController>();
@@ -93,6 +93,7 @@ namespace BubbleFriend.Play
             _grid.Clear();
 
             MinigameManager.Instance.Minigame = Minigame.Minigame.None;
+            _canShoot = true;
         }
 
         private float SqrtDistance(Vector2 a, Vector2 b) // Distance without sqrt for optimization

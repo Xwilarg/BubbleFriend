@@ -39,7 +39,7 @@ namespace BubbleFriend.Play
             _rb.linearVelocity = _isLocked ? Vector2.zero : _dir * 10f;
         }
 
-        public void LockOnGrid()
+        public bool LockOnGrid()
         {
             _isLocked = true;
             _rb.bodyType = RigidbodyType2D.Kinematic;
@@ -50,12 +50,14 @@ namespace BubbleFriend.Play
             {
                 Debug.LogWarning($"Failed to register bubble on grid at {p.Item1} => {p.Item2}");
                 Destroy(gameObject);
+                return false;
             }
-            else
+            if (p.Item2.y >= 8)
             {
-                if (p.Item2.y >= 8)
-                    PlayManager.Instance.EndGame();
+                PlayManager.Instance.EndGame();
+                return false;
             }
+            return true;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -68,8 +70,7 @@ namespace BubbleFriend.Play
             }
             else if (collision.collider.CompareTag("Roof") || collision.collider.CompareTag("PlayBubble"))
             {
-                LockOnGrid();
-                PlayManager.Instance.SpawnBubble();
+                if (LockOnGrid()) PlayManager.Instance.SpawnBubble();
             }
             else
             {
