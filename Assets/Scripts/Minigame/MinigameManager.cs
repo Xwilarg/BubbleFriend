@@ -17,6 +17,12 @@ namespace BubbleFriend.Minigame
         private Camera _cam;
         private float _timer = 1f;
 
+        [SerializeField]
+        private Transform _bubble;
+
+        [SerializeField]
+        private GameObject _dirtPrefab;
+
         private void Awake()
         {
             Instance = this;
@@ -37,6 +43,14 @@ namespace BubbleFriend.Minigame
         {
             Minigame = Minigame.Cleaning;
             _timer = 0f;
+
+            var max = Mathf.Clamp(1, 10, BubbleManager.Instance.CleaningNeed * 10f);
+            for (int i = 0; i < max; i++)
+            {
+                var dirt = Instantiate(_dirtPrefab, _bubble);
+                dirt.transform.SetLocalPositionAndRotation(Random.insideUnitCircle * Random.Range(0f, 3f), Quaternion.Euler(0f, 0f, Random.value * Mathf.PI * 2f));
+                dirt.transform.localScale = Vector3.one * Random.Range(.3f, .4f);
+            }
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace BubbleFriend
 {
     public enum Need
     {
@@ -20,15 +19,21 @@ namespace Assets.Scripts
 
     public class BubbleManager : MonoBehaviour
     {
+        public static BubbleManager Instance { private set; get; }
+
         [SerializeField]
         private Dictionary<Need, NeedInfo> _needInfo = new();
         [SerializeField, Tooltip("Debug only, do not modify")]
-        private Dictionary<Need, float> _needs = new();
+        private Dictionary<Need, int> _needs = new();
+
+        public float CleaningNeed => _needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat;
 
         private float _checkTimer = 1f;
 
         private void Awake()
         {
+            Instance = this;
+
             _needs = new();
             foreach (var ni in _needInfo)
             {
