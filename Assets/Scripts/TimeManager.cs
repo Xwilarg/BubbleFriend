@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 
@@ -19,6 +20,9 @@ namespace BubbleFriend.Bubble
 
         [SerializeField]
         private int _dayStart, _dayEnd;
+
+        [SerializeField]
+        private TMP_Text _timeDisplay;
 
         private float _midday, _durationMorning, _durationAfternoon;
 
