@@ -80,7 +80,7 @@ namespace BubbleFriend.Play
             SpawnBubble();
         }
 
-        public void EndGame()
+        public void EndGame(bool badEnding)
         {
             foreach (var obj in _grid)
             {
@@ -94,6 +94,11 @@ namespace BubbleFriend.Play
 
             MinigameManager.Instance.Minigame = Minigame.Minigame.None;
             _canShoot = true;
+
+            if (badEnding)
+            {
+                BubbleManager.Instance.UpdateHappiness(-1);
+            }
         }
 
         private float SqrtDistance(Vector2 a, Vector2 b) // Distance without sqrt for optimization

@@ -42,6 +42,7 @@ namespace BubbleFriend
         public float CleaningNeed => 1f - (_needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat);
 
         private float _checkTimer = 1f;
+        private int _happiness;
 
         private void Awake()
         {
@@ -80,6 +81,11 @@ namespace BubbleFriend
                 }
                 _checkTimer = 1f;
             }
+        }
+
+        public void UpdateHappiness(int modifier)
+        {
+            _happiness = Mathf.Clamp(_happiness + modifier, -10, 10);
         }
 
         private Flavor GetRandomFlavor()

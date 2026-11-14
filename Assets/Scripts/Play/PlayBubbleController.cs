@@ -54,7 +54,7 @@ namespace BubbleFriend.Play
             }
             if (p.Item2.y >= 8)
             {
-                PlayManager.Instance.EndGame();
+                PlayManager.Instance.EndGame(true);
                 return false;
             }
             return true;

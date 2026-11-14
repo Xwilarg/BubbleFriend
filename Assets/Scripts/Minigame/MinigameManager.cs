@@ -74,6 +74,7 @@ namespace BubbleFriend.Minigame
                             {
                                 _timer = 0f;
                                 Minigame = Minigame.None;
+                                BubbleManager.Instance.UpdateHappiness(1);
                                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                             }
                         }
