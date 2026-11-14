@@ -1,3 +1,4 @@
+using Sketch.Translation;
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace BubbleFriend
 
         private void Awake()
         {
+            Translate.Instance.SetLanguages(new[] { "english", "french" });
 #if !UNITY_EDITOR
             SetWindowPos(GetWindowHandle(), HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
 #endif
