@@ -16,8 +16,8 @@ namespace BubbleFriend
     public enum Flavor
     {
         Lemon,
-        Cardamom,
-        Chestnut
+        Coconut,
+        Cherry
     }
 
     [System.Serializable]
@@ -54,6 +54,7 @@ namespace BubbleFriend
             }
 
             _currentTaste = GetRandomFlavor();
+            StartCoroutine(ChangeTasteCoroutine());
         }
 
         private IEnumerator ChangeTasteCoroutine()
