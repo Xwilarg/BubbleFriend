@@ -1,12 +1,12 @@
 ﻿using Sketch.Translation;
-using System.Linq;
 using TMPro;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BubbleFriend
 {
-    public class MenuManager : MonoBehaviour
+    [AutoStaticsCleanup]
+    public partial class MenuManager : MonoBehaviour
     {
         [SerializeField]
         private Animator _collapseAnim, _settingsAnim;

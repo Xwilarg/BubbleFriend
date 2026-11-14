@@ -2,11 +2,13 @@ using Sketch.Translation;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BubbleFriend
 {
-    public class SystemManager : MonoBehaviour
+    [AutoStaticsCleanup]
+    public partial class SystemManager : MonoBehaviour
     {
         // https://stackoverflow.com/a/34703664 and https://discussions.unity.com/t/how-do-you-reliably-the-hwnd-window-handle-of-the-games-own-window/699477/8
         private delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);

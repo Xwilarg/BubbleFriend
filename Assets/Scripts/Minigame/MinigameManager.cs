@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Scripting.LifecycleManagement;
+using UnityEngine;
 
 namespace BubbleFriend.Minigame
 {
@@ -8,7 +9,8 @@ namespace BubbleFriend.Minigame
         Cleaning
     }
 
-    public class MinigameManager : MonoBehaviour
+    [AutoStaticsCleanup]
+    public partial class MinigameManager : MonoBehaviour
     {
         public static MinigameManager Instance { private set; get; }
 
@@ -40,6 +42,7 @@ namespace BubbleFriend.Minigame
                 if (_timer > 1f) _timer = 1f;
             }
             _cam.orthographicSize = Mathf.Lerp(Minigame == Minigame.None ? 3f : 5f, Minigame == Minigame.None ? 5f : 3f, _timer);
+
         }
 
         public void StartCleaningMinigame()

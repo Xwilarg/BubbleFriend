@@ -1,11 +1,13 @@
 ﻿using System;
 using TMPro;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 
 namespace BubbleFriend.Bubble
 {
-    public class TimeManager : MonoBehaviour
+    [AutoStaticsCleanup]
+    public partial class TimeManager : MonoBehaviour
     {
         public static TimeManager Instance { private set; get; }
 

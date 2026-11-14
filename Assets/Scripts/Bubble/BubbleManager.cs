@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BubbleFriend
@@ -17,7 +18,8 @@ namespace BubbleFriend
         [Range(0f, 1f)] public float DownModProba;
     }
 
-    public class BubbleManager : MonoBehaviour
+    [AutoStaticsCleanup]
+    public partial class BubbleManager : MonoBehaviour
     {
         public static BubbleManager Instance { private set; get; }
 
