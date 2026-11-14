@@ -72,6 +72,7 @@ namespace BubbleFriend.Minigame
                             {
                                 _timer = 0f;
                                 Minigame = Minigame.None;
+                                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                             }
                         }
                         else dirt.transform.localScale = Vector3.one * newScale;
