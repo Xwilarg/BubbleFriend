@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 887802649544363820}
   - component: {fileID: 3729876440591569948}
   - component: {fileID: -8142391842792913469}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayBubble
-  m_TagString: Untagged
+  m_TagString: PlayBubble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

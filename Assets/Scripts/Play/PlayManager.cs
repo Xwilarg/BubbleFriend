@@ -30,9 +30,9 @@ namespace BubbleFriend.Play
             _cam = Camera.main;
         }
 
-        private void SpawnBubble()
+        public void SpawnBubble()
         {
-            if (!_canShoot) return;
+            _canShoot = true;
             _playBubbleInstance = Instantiate(_playBubblePrefab, _launchPoint.transform.position, Quaternion.identity);
         }
 
@@ -43,14 +43,52 @@ namespace BubbleFriend.Play
             var pbc = _playBubbleInstance.GetComponent<PlayBubbleController>();
             pbc.Setup(
                 Random.Range(0, 3),
-                ((Vector2)transform.position - mousePos).normalized
+                (mousePos - (Vector2)_playBubbleInstance.transform.position).normalized
             );
         }
 
         public void StartGame()
         {
             SpawnBubble();
-            _canShoot = true;
+        }
+
+        private float SqrtDistance(Vector2 a, Vector2 b) // Distance without sqrt for optimization
+        {
+            return Mathf.Pow(a.x - b.x, 2f) + Mathf.Pow(a.y - b.y, 2f);
+        }
+
+        public Vector2 GetGridPos(Vector2 pos)
+        {
+            Vector2 closest = Vector2.zero;
+            float dist = float.MaxValue;
+
+            // There is probably a wayyyyyyyyyyyyy better way to do this but I have no idea how to do the math
+            var xMax = (_startX * 2 + 1) * 2 + 1;
+            for (int y = 0; y < 6; y++)
+            {
+                for (var x = 0; x < xMax; x++)
+                {
+                    var p = new Vector2(-_startX + x / 2f - .5f, _startY - y - .75f);
+                    var pDist = SqrtDistance(pos, p);
+                    if (pDist < dist)
+                    {
+                        closest = p;
+                        dist = pDist;
+                    }
+                    if (x < xMax - 1)
+                    {
+                        var p2 = new Vector2(-_startX + x / 2f - .25f, _startY - y - .25f);
+                        var p2Dist = SqrtDistance(pos, p2);
+                        if (p2Dist < dist)
+                        {
+                            closest = p2;
+                            dist = p2Dist;
+                        }
+                    }
+                }
+            }
+
+            return closest;
         }
 
         private void OnDrawGizmos()
