@@ -46,7 +46,8 @@ namespace BubbleFriend
             Translate.Instance.SetLanguages(new Dictionary<string, string>()
             {
                 { "English", "english" },
-                { "Francais", "french" }
+                { "Francais", "french" },
+                { "Nederlands", "dutch" }
             });
 #if !UNITY_EDITOR
             SetWindowPos(GetWindowHandle(), HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
