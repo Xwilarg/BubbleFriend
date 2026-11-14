@@ -2207,6 +2207,7 @@ GameObject:
   - component: {fileID: 1204694722}
   - component: {fileID: 1204694723}
   - component: {fileID: 1204694724}
+  - component: {fileID: 1204694725}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2302,6 +2303,31 @@ MonoBehaviour:
   _collapseAnim: {fileID: 1171403401}
   _settingsAnim: {fileID: 1014742234}
   _languageDropdown: {fileID: 1090448755}
+--- !u!114 &1204694725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204694720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37fb293ea2b7fc43a9e30ed0f3aa892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.BubbleManager
+  _needInfo:
+  - key: 0
+    value:
+      TimeToDepleat: 1800
+      DownModProba: 0.75
+  - key: 1
+    value:
+      TimeToDepleat: 3200
+      DownModProba: 0.5
+  - key: 2
+    value:
+      TimeToDepleat: 1200
+      DownModProba: 0.9
 --- !u!1 &1281167722
 GameObject:
   m_ObjectHideFlags: 0
