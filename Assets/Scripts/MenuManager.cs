@@ -41,7 +41,6 @@ namespace BubbleFriend
 
         public void UpdateLanguage(int value)
         {
-            Debug.Log(Translate.Instance.CurrentLanguage);
             Translate.Instance.CurrentLanguage = _languageDropdown.options[value].text;
         }
     }

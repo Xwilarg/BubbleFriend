@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -13,7 +14,7 @@ namespace Assets.Scripts
     [System.Serializable]
     public class NeedInfo
     {
-        public float TimeToDepleat;
+        public int TimeToDepleat;
         [Range(0f, 1f)] public float DownModProba;
     }
 
@@ -21,10 +22,14 @@ namespace Assets.Scripts
     {
         [SerializeField]
         private Dictionary<Need, NeedInfo> _needInfo = new();
+        [SerializeField, Tooltip("Debug only, do not modify")]
         private Dictionary<Need, float> _needs = new();
+
+        private float _checkTimer = 1f;
 
         private void Awake()
         {
+            _needs = new();
             foreach (var ni in _needInfo)
             {
                 _needs.Add(ni.Key, ni.Value.TimeToDepleat);
@@ -33,12 +38,17 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            foreach (var ni in _needs)
+            _checkTimer -= Time.deltaTime;
+            if (_checkTimer <= 0f)
             {
-                if (Random.value < _needInfo[ni.Key].DownModProba)
+                foreach (var ni in _needs)
                 {
-                    _needs[ni.Key] -= Time.deltaTime;
+                    if (Random.value < _needInfo[ni.Key].DownModProba)
+                    {
+                        _needs[ni.Key]--;
+                    }
                 }
+                _checkTimer = 1f;
             }
         }
     }

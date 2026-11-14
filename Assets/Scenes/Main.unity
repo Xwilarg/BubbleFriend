@@ -2326,8 +2326,9 @@ MonoBehaviour:
       DownModProba: 0.5
   - key: 2
     value:
-      TimeToDepleat: 1200
+      TimeToDepleat: 1000
       DownModProba: 0.9
+  _needs: []
 --- !u!1 &1281167722
 GameObject:
   m_ObjectHideFlags: 0
