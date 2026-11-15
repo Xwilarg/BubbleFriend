@@ -102,7 +102,14 @@ namespace BubbleFriend
             {
                 _sr.sprite = _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].Sprite;
 
-                // TODO: Check for time elapsed and update needs
+                var diff = PersistencyManager<SaveData>.Instance.SaveData.LastCheck.Subtract(System.DateTime.UtcNow).TotalHours;
+                var percent = Mathf.Clamp01((float)diff / 24f);
+                foreach (var ni in _needInfo)
+                {
+                    PersistencyManager<SaveData>.Instance.SaveData.Needs[ni.Key] = Mathf.RoundToInt(ni.Value.TimeToDepleat * percent);
+                }
+                PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
+                PersistencyManager<SaveData>.Instance.Save();
             }
 
             CurrentTaste = GetRandomFlavor();
