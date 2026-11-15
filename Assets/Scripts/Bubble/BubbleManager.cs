@@ -114,7 +114,7 @@ namespace BubbleFriend
         {
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(500, 750));
+                yield return new WaitForSeconds(Random.Range(200, 500));
                 if (
                     !TimeManager.Instance.IsNight &&
                     NeedOnTen(Need.Feed) >= 3

@@ -1,10 +1,13 @@
 ﻿using BubbleFriend.Persistency;
 using Sketch.Persistency;
 using Sketch.Translation;
+using System;
+using System.Linq;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace BubbleFriend
 {
@@ -25,6 +28,9 @@ namespace BubbleFriend
         [SerializeField]
         private TMP_Text _deleteSavesText;
 
+        [SerializeField]
+        private Toggle _flashToggle;
+
         private bool _isCollapsed = false;
         private bool _isSettings = false;
 
@@ -40,7 +46,10 @@ namespace BubbleFriend
 
         private void Start()
         {
-            Translate.Instance.CurrentLanguage = PersistencyManager<SaveData>.Instance.SaveData.CurrentLanguage;
+            var lang = PersistencyManager<SaveData>.Instance.SaveData.CurrentLanguage;
+            Translate.Instance.CurrentLanguage = lang;
+            _languageDropdown.value = _languageDropdown.options.IndexOf(_languageDropdown.options.First(x => x.text == lang));
+            _flashToggle.isOn = PersistencyManager<SaveData>.Instance.SaveData.FlashOnNotification;
         }
 
         public void UpdateLanguage(int value)

@@ -2,14 +2,10 @@ using BubbleFriend.Persistency;
 using Sketch.Persistency;
 using Sketch.Translation;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
-using UnityEngine.XR;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
 
 namespace BubbleFriend
 {

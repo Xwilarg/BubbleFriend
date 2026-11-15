@@ -3604,6 +3604,7 @@ MonoBehaviour:
   _languageDropdown: {fileID: 1090448755}
   _soapFlavorsMenu: {fileID: 320858114}
   _deleteSavesText: {fileID: 15225317}
+  _flashToggle: {fileID: 1191562670}
 --- !u!114 &1204694725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4526,7 +4527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '{language}'
+  m_text: '{settings}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 983c11dce9dc5bf4a957ad361f2fe30f, type: 2}
   m_sharedMaterial: {fileID: -8244964434426372375, guid: 983c11dce9dc5bf4a957ad361f2fe30f, type: 2}

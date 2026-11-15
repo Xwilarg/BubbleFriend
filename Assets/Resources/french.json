@@ -6,6 +6,7 @@
     "play": "Jouer",
 
     "language": "Langue",
+    "settings": "Options",
 
     "no_play": "Bubulle ne veut pas jouer pour l'instant",
     "no_wash": "Bubulle est deja propre",
@@ -18,5 +19,7 @@
     "debug_clean": "Crasse: {0}%",
     "debug_play": "Ennui: {0}%",
     "debug_happiness": "Bonheur: {0}%",
-    "debug_growth": "Croissance: {0}%"
+    "debug_growth": "Croissance: {0}%",
+
+    "settings_flash": "Activer flash lors de la reception de message"
 }
