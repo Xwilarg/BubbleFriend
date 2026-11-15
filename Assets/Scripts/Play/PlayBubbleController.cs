@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace BubbleFriend.Play
 {
@@ -7,7 +11,7 @@ namespace BubbleFriend.Play
         private Rigidbody2D _rb;
         private Vector2 _dir;
 
-        private int _id;
+        public int Id { set; get; }
 
         private bool _isLocked;
 
@@ -23,9 +27,9 @@ namespace BubbleFriend.Play
 
         public void SetId(int id)
         {
-            _id = id;
+            Id = id;
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            sr.color = _id switch
+            sr.color = Id switch
             {
                 0 => new Color(1f, 0f, 0.094f),
                 1 => new Color(0.478f, 1f, 0.274f),
@@ -40,18 +44,28 @@ namespace BubbleFriend.Play
             _rb.linearVelocity = _isLocked ? Vector2.zero : _dir * 10f;
         }
 
-        public bool LockOnGrid()
+        public bool LockOnGrid(bool checkMatch)
         {
             _isLocked = true;
             _rb.bodyType = RigidbodyType2D.Kinematic;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             var p = PlayManager.Instance.GetGridPos(transform.position);
             transform.position = p.Item1;
-            if (!PlayManager.Instance.RegisterToGrid(p.Item2, gameObject))
+            if (!PlayManager.Instance.RegisterToGrid(p.Item2, this))
             {
                 Debug.LogWarning($"Failed to register bubble on grid at {p.Item1} => {p.Item2}");
                 Destroy(gameObject);
                 return false;
+            }
+            List<Vector2Int> adjacents = new();
+            PlayManager.Instance.GetAdjacents(p.Item2, Id, adjacents);
+            if (checkMatch && adjacents.Count > 3)
+            {
+                foreach (var e in adjacents)
+                {
+                    PlayManager.Instance.DestroyFromGrid(e);
+                }
+                return true;
             }
             if (p.Item2.y >= 8)
             {
@@ -71,7 +85,7 @@ namespace BubbleFriend.Play
             }
             else if (collision.collider.CompareTag("Roof") || collision.collider.CompareTag("PlayBubble"))
             {
-                if (LockOnGrid()) PlayManager.Instance.SpawnBubble();
+                if (LockOnGrid(true)) PlayManager.Instance.SpawnBubble();
             }
             else
             {

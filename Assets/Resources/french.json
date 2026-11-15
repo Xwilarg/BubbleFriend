@@ -1,9 +1,13 @@
 {
-    "lang": "Français",
+    "lang": "Francais",
 
     "clean": "Laver",
     "feed": "Nourrir",
     "play": "Jouer",
 
-    "language": "Langue"
+    "language": "Langue",
+
+    "no_play": "Bubulle ne veut pas jouer pour l'instant",
+    "no_wash": "Bubulle est deja propre",
+    "no_eat": "Bubulle n'a pas faim"
 }

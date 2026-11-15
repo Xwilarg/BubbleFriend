@@ -25,7 +25,7 @@ namespace BubbleFriend.Play
         private int _startY = 5;
         private int _startX = 3;
 
-        private Dictionary<Vector2Int, GameObject> _grid = new();
+        private Dictionary<Vector2Int, PlayBubbleController> _grid = new();
 
         private void Awake()
         {
@@ -38,6 +38,34 @@ namespace BubbleFriend.Play
             _canShoot = true;
             _playBubbleInstance = Instantiate(_playBubblePrefab, _launchPoint.transform.position, Quaternion.identity);
             _playBubbleInstance.GetComponent<PlayBubbleController>().SetId(Random.Range(0, 3));
+        }
+
+        public void GetAdjacents(Vector2Int pos, int id, List<Vector2Int> elements)
+        {
+            if (elements.Contains(pos) || _grid[pos].Id != id) return;
+
+            elements.Add(pos);
+            if (_grid.ContainsKey(new Vector2Int(pos.x - 1, pos.y))) GetAdjacents(new Vector2Int(pos.x - 1, pos.y), id, elements);
+            if (_grid.ContainsKey(new Vector2Int(pos.x + 1, pos.y))) GetAdjacents(new Vector2Int(pos.x + 1, pos.y), id, elements);
+
+            if (_grid.ContainsKey(new Vector2Int(pos.x, pos.y + 1))) GetAdjacents(new Vector2Int(pos.x, pos.y + 1), id, elements);
+            if (_grid.ContainsKey(new Vector2Int(pos.x, pos.y - 1))) GetAdjacents(new Vector2Int(pos.x, pos.y - 1), id, elements);
+            if (pos.y % 2 == 0)
+            {
+                if (_grid.ContainsKey(new Vector2Int(pos.x + 1, pos.y + 1))) GetAdjacents(new Vector2Int(pos.x + 1, pos.y + 1), id, elements);
+                if (_grid.ContainsKey(new Vector2Int(pos.x + 1, pos.y - 1))) GetAdjacents(new Vector2Int(pos.x + 1, pos.y - 1), id, elements);
+            }
+            else
+            {
+                if (_grid.ContainsKey(new Vector2Int(pos.x - 1, pos.y + 1))) GetAdjacents(new Vector2Int(pos.x - 1, pos.y + 1), id, elements);
+                if (_grid.ContainsKey(new Vector2Int(pos.x - 1, pos.y - 1))) GetAdjacents(new Vector2Int(pos.x - 1, pos.y - 1), id, elements);
+            }
+        }
+
+        public void DestroyFromGrid(Vector2Int p)
+        {
+            Destroy(_grid[p].gameObject);
+            _grid.Remove(p);
         }
 
         public void Shoot(Vector2 mousePos)
@@ -64,7 +92,7 @@ namespace BubbleFriend.Play
                             var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .25f, _startY - y - .25f), Quaternion.identity);
                             var c = bubble.GetComponent<PlayBubbleController>();
                             c.SetId(Random.Range(0, 4));
-                            c.LockOnGrid();
+                            c.LockOnGrid(false);
                         }
                     }
                     if (y == 0 && Random.Range(0, 100) < 50)
@@ -74,7 +102,7 @@ namespace BubbleFriend.Play
                             var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .5f, _startY - y - .75f), Quaternion.identity);
                             var c = bubble.GetComponent<PlayBubbleController>();
                             c.SetId(Random.Range(0, 4));
-                            c.LockOnGrid();
+                            c.LockOnGrid(false);
                         }
                     }
                 }
@@ -109,7 +137,7 @@ namespace BubbleFriend.Play
             return Mathf.Pow(a.x - b.x, 2f) + Mathf.Pow(a.y - b.y, 2f);
         }
 
-        public bool RegisterToGrid(Vector2Int pos, GameObject obj)
+        public bool RegisterToGrid(Vector2Int pos, PlayBubbleController obj)
         {
             if (_grid.ContainsKey(pos)) return false;
             _grid.Add(pos, obj);
