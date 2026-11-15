@@ -1,4 +1,6 @@
 ﻿using BubbleFriend.Bubble;
+using BubbleFriend.Persistency;
+using Sketch.Persistency;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,28 +44,32 @@ namespace BubbleFriend
 
         [SerializeField]
         private Dictionary<Need, NeedInfo> _needInfo = new();
-        [SerializeField, Tooltip("Debug only, do not modify")]
-        private Dictionary<Need, int> _needs = new();
 
         public Flavor CurrentTaste { private set; get; }
 
         public int NeedOnTen(Need need)
         {
-            var perc = 1f - (_needs[need] / (float)_needInfo[need].TimeToDepleat);
+            var perc = 1f - (PersistencyManager<SaveData>.Instance.SaveData.Needs[need] / (float)_needInfo[need].TimeToDepleat);
             return Mathf.Clamp(Mathf.RoundToInt(perc * 10f), 0, 10);
         }
 
         private float _checkTimer = 1f;
+        private int _checkCount = 0;
         private int _happiness;
 
         private void Awake()
         {
             Instance = this;
 
-            _needs = new();
-            foreach (var ni in _needInfo)
+            if (PersistencyManager<SaveData>.Instance.SaveData.Needs == null)
             {
-                _needs.Add(ni.Key, ni.Value.TimeToDepleat);
+                PersistencyManager<SaveData>.Instance.SaveData.Needs = new();
+                foreach (var ni in _needInfo)
+                {
+                    PersistencyManager<SaveData>.Instance.SaveData.Needs.Add(ni.Key, ni.Value.TimeToDepleat);
+                }
+                PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
+                PersistencyManager<SaveData>.Instance.Save();
             }
 
             CurrentTaste = GetRandomFlavor();
@@ -81,17 +87,28 @@ namespace BubbleFriend
 
         private void Update()
         {
+
             _checkTimer -= Time.deltaTime;
             if (_checkTimer <= 0f)
             {
-                foreach (var ni in _needs)
+                _checkTimer = 1f;
+                if (TimeManager.Instance.IsNight)
+                {
+                    return;
+                }
+                foreach (var ni in PersistencyManager<SaveData>.Instance.SaveData.Needs)
                 {
                     if (Random.value < _needInfo[ni.Key].DownModProba)
                     {
-                        _needs[ni.Key]--;
+                        PersistencyManager<SaveData>.Instance.SaveData.Needs[ni.Key]--;
                     }
                 }
-                _checkTimer = 1f;
+                _checkCount++;
+                if (_checkCount == 120)
+                {
+                    PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
+                    PersistencyManager<SaveData>.Instance.Save();
+                }
             }
         }
 
@@ -109,7 +126,8 @@ namespace BubbleFriend
         public void ClearNeed(Need need, float percent)
         {
             var max = _needInfo[need].TimeToDepleat;
-            _needs[need] = Mathf.RoundToInt(Mathf.Clamp(_needs[need] + (max * percent), 0f, max));
+            PersistencyManager<SaveData>.Instance.SaveData.Needs[need] = Mathf.RoundToInt(Mathf.Clamp(PersistencyManager<SaveData>.Instance.SaveData.Needs[need] + (max * percent), 0f, max));
+            PersistencyManager<SaveData>.Instance.Save();
         }
     }
 }
