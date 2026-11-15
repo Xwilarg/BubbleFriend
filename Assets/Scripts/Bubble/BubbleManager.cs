@@ -119,9 +119,9 @@ namespace BubbleFriend
 
         private IEnumerator ChangeTasteCoroutine()
         {
+            yield return new WaitForSeconds(Random.Range(10, 20));
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(200, 500));
                 if (
                     !TimeManager.Instance.IsNight &&
                     NeedOnTen(Need.Feed) >= 3
@@ -130,6 +130,7 @@ namespace BubbleFriend
                     CurrentTaste = GetRandomFlavor();
                     _player.ShowThought(_flavorSprites[CurrentTaste].SoapSprite);
                 }
+                yield return new WaitForSeconds(Random.Range(200, 500));
             }
         }
 
