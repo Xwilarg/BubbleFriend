@@ -121,7 +121,7 @@ namespace BubbleFriend
                 )
                 {
                     CurrentTaste = GetRandomFlavor();
-                    _player.ShowThought(_flavorSprites[CurrentTaste].BellySprite);
+                    _player.ShowThought(_flavorSprites[CurrentTaste].SoapSprite);
                 }
             }
         }
@@ -178,6 +178,7 @@ namespace BubbleFriend
             if (modifier > 0) CheckForGrowth();
 
             _player.ShowThought(modifier > 0 ? _spriteHappy : _spriteUnhappy);
+            UpdateDebugText();
         }
 
         public void CheckForGrowth()
