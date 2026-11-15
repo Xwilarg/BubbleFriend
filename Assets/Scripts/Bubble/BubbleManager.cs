@@ -80,7 +80,7 @@ namespace BubbleFriend
         {
             Instance = this;
 
-            _sr = GetComponent<SpriteRenderer>();
+            _sr = _player.GetComponent<SpriteRenderer>();
 
             if (PersistencyManager<SaveData>.Instance.SaveData.Needs == null)
             {

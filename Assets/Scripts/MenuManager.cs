@@ -1,7 +1,10 @@
-﻿using Sketch.Translation;
+﻿using BubbleFriend.Persistency;
+using Sketch.Persistency;
+using Sketch.Translation;
 using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BubbleFriend
 {
@@ -19,8 +22,13 @@ namespace BubbleFriend
         [SerializeField]
         private GameObject _soapFlavorsMenu;
 
+        [SerializeField]
+        private TMP_Text _deleteSavesText;
+
         private bool _isCollapsed = false;
         private bool _isSettings = false;
+
+        private bool _deleteSaveConfirm = false;
 
         private void Awake()
         {
@@ -51,6 +59,22 @@ namespace BubbleFriend
             }
             _isSettings = !_isSettings;
             _settingsAnim.SetBool("IsCollapsed", _isSettings);
+            _deleteSaveConfirm = false;
+            _deleteSavesText.text = Translate.Instance.Tr("reset_save");
+        }
+
+        public void DeleteSaves()
+        {
+            if (!_deleteSaveConfirm)
+            {
+                _deleteSaveConfirm = true;
+                _deleteSavesText.text = Translate.Instance.Tr("confirm");
+            }
+            else
+            {
+                PersistencyManager<SaveData>.Instance.DeleteSave();
+                SceneManager.LoadScene("Main");
+            }
         }
 
         public void UpdateLanguage(int value)
