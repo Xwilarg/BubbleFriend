@@ -65,8 +65,7 @@ namespace BubbleFriend.Play
                 {
                     PlayManager.Instance.DestroyFromGrid(e);
                 }
-                PlayManager.Instance.ValidateMatch();
-                return true;
+                return PlayManager.Instance.ValidateMatch();
             }
             if (p.Item2.y >= 8)
             {

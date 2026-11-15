@@ -115,11 +115,16 @@ namespace BubbleFriend.Play
             SpawnBubble();
         }
 
-        public void ValidateMatch()
+        public bool ValidateMatch()
         {
             _objective--;
             BubbleManager.Instance.ClearNeed(Need.Play, .1f);
-            if (_objective == 0) EndGame(false);
+            if (_objective == 0)
+            {
+                EndGame(false);
+                return false;
+            }
+            return true;
         }
 
         public void EndGame(bool badEnding)
