@@ -152,10 +152,14 @@ namespace BubbleFriend
 
                     CheckForGrowth();
                     _checkCount = 0;
+
+                    UpdateDebugText();
                 }
             }
+        }
 
-#if UNITY_EDITOR
+        private void UpdateDebugText()
+        {
             StringBuilder str = new();
             str.AppendLine(Translate.Instance.Tr("debug_food", (NeedOnTen(Need.Feed) * 10).ToString()));
             str.AppendLine(Translate.Instance.Tr("debug_clean", (NeedOnTen(Need.Clean) * 10).ToString()));
@@ -163,7 +167,6 @@ namespace BubbleFriend
             str.AppendLine(Translate.Instance.Tr("debug_happiness", (PersistencyManager<SaveData>.Instance.SaveData.Happiness * 10).ToString()));
             str.AppendLine(Translate.Instance.Tr("debug_growth", (Mathf.RoundToInt(PersistencyManager<SaveData>.Instance.SaveData.Growth * 50) + 50).ToString()));
             _debugText.text = str.ToString();
-#endif
         }
 
         public void UpdateHappiness(int modifier)
