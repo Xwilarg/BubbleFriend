@@ -143,7 +143,7 @@ namespace BubbleFriend.Minigame
             }
 
             Minigame = Minigame.Play;
-            PlayManager.Instance.StartGame(count);
+            PlayManager.Instance.StartGame(count + 1);
         }
 
         public Vector2? GetWorldMousePos(Camera cam)

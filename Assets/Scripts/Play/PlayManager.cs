@@ -118,7 +118,7 @@ namespace BubbleFriend.Play
         public bool ValidateMatch()
         {
             _objective--;
-            BubbleManager.Instance.ClearNeed(Need.Play, .1f);
+            BubbleManager.Instance.ClearNeed(Need.Play, .2f);
             if (_objective == 0)
             {
                 EndGame(false);
