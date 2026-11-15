@@ -1,6 +1,7 @@
 ﻿using BubbleFriend.Bubble;
 using BubbleFriend.Persistency;
 using Sketch.Persistency;
+using Sketch.Translation;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,16 +151,17 @@ namespace BubbleFriend
                     PersistencyManager<SaveData>.Instance.Save();
 
                     CheckForGrowth();
+                    _checkCount = 0;
                 }
             }
 
 #if UNITY_EDITOR
             StringBuilder str = new();
-            str.AppendLine($"Food need: {NeedOnTen(Need.Feed) * 100}%");
-            str.AppendLine($"Clean need: {NeedOnTen(Need.Clean) * 100}%");
-            str.AppendLine($"Play need: {NeedOnTen(Need.Play) * 100}%");
-            str.AppendLine($"Happiness: {PersistencyManager<SaveData>.Instance.SaveData.Happiness}");
-            str.AppendLine($"Growth: {PersistencyManager<SaveData>.Instance.SaveData.Growth * 100f}%");
+            str.AppendLine(Translate.Instance.Tr("debug_food", (NeedOnTen(Need.Feed) * 10).ToString()));
+            str.AppendLine(Translate.Instance.Tr("debug_clean", (NeedOnTen(Need.Clean) * 10).ToString()));
+            str.AppendLine(Translate.Instance.Tr("debug_play", (NeedOnTen(Need.Play) * 10).ToString()));
+            str.AppendLine(Translate.Instance.Tr("debug_happiness", (PersistencyManager<SaveData>.Instance.SaveData.Happiness * 10).ToString()));
+            str.AppendLine(Translate.Instance.Tr("debug_growth", (Mathf.RoundToInt(PersistencyManager<SaveData>.Instance.SaveData.Growth * 50) + 50).ToString()));
             _debugText.text = str.ToString();
 #endif
         }

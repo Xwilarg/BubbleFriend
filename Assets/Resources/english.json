@@ -12,5 +12,11 @@
     "no_eat": "Bubble is already full",
 
     "reset_save": "Delete all saves",
-    "confirm": "Are you sure?"
+    "confirm": "Are you sure?",
+
+    "debug_food": "Hunger: {0}%",
+    "debug_clean": "Dirtiness: {0}%",
+    "debug_play": "Boredom: {0}%",
+    "debug_happiness": "Happiness: {0}%",
+    "debug_growth": "Growth: {0}%"
 }

@@ -12,5 +12,11 @@
     "no_eat": "Bubulle n'a pas faim",
 
     "reset_save": "Supprimer sauvegardes",
-    "confirm": "Etes vous sur ?"
+    "confirm": "Etes vous sur ?",
+
+    "debug_food": "Faim: {0}%",
+    "debug_clean": "Crasse: {0}%",
+    "debug_play": "Ennui: {0}%",
+    "debug_happiness": "Bonheur: {0}%",
+    "debug_growth": "Croissance: {0}%"
 }
