@@ -1,3 +1,5 @@
+using BubbleFriend.Persistency;
+using Sketch.Persistency;
 using Sketch.Translation;
 using System;
 using System.Collections;
@@ -57,6 +59,8 @@ namespace BubbleFriend
             return returnHwnd;
         }
 
+        public bool AllowWindowFlash { set; get; }
+
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         private const UInt32 SWP_NOSIZE = 0x0001;
         private const UInt32 SWP_NOMOVE = 0x0002;
@@ -68,6 +72,8 @@ namespace BubbleFriend
         private void Awake()
         {
             Instance = this;
+
+            AllowWindowFlash = PersistencyManager<SaveData>.Instance.SaveData.FlashOnNotification;
 
             _handle = GetWindowHandle();
 
@@ -84,7 +90,7 @@ namespace BubbleFriend
 
         public void FlashWindow()
         {
-            FlashWindow(_handle, true);
+            if (AllowWindowFlash) FlashWindow(_handle, true);
         }
     }
 }

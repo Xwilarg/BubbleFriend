@@ -18,5 +18,7 @@
     "debug_clean": "Dirtiness: {0}%",
     "debug_play": "Boredom: {0}%",
     "debug_happiness": "Happiness: {0}%",
-    "debug_growth": "Growth: {0}%"
+    "debug_growth": "Growth: {0}%",
+
+    "settings_flash": "Enable window flash on message"
 }

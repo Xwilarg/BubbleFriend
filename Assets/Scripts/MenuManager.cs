@@ -96,5 +96,12 @@ namespace BubbleFriend
         {
             _soapFlavorsMenu.SetActive(value);
         }
+
+        public void ToggleAllowFlash(bool value)
+        {
+            SystemManager.Instance.AllowWindowFlash = value;
+            PersistencyManager<SaveData>.Instance.SaveData.FlashOnNotification = value;
+            PersistencyManager<SaveData>.Instance.Save();
+        }
     }
 }
