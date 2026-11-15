@@ -61,7 +61,6 @@ namespace BubbleFriend
 
         private float _checkTimer = 1f;
         private int _checkCount = 0;
-        private int _happiness;
 
         private void Awake()
         {
@@ -127,7 +126,8 @@ namespace BubbleFriend
 
         public void UpdateHappiness(int modifier)
         {
-            _happiness = Mathf.Clamp(_happiness + modifier, -10, 10);
+            PersistencyManager<SaveData>.Instance.SaveData.Happiness = Mathf.Clamp(PersistencyManager<SaveData>.Instance.SaveData.Happiness + modifier, -10, 10);
+            PersistencyManager<SaveData>.Instance.Save();
         }
 
         private Flavor GetRandomFlavor()
