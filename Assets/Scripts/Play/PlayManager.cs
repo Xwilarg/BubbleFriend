@@ -89,7 +89,7 @@ namespace BubbleFriend.Play
             {
                 for (var x = 0; x < xMax; x++)
                 {
-                    if ((y == 0 && Random.Range(0, 100) < 90) || (y == 1 && Random.Range(0, 100) < 20))
+                    if ((y == 0 && Random.Range(0, 100) < 90) || (y == 1 && Random.Range(0, 100) < 50))
                     {
                         if (y == 0 || (_grid.ContainsKey(new(x + 1, y)) || _grid.ContainsKey(new(x, y))))
                         {
@@ -99,7 +99,7 @@ namespace BubbleFriend.Play
                             c.LockOnGrid(false);
                         }
                     }
-                    if (y == 0 && Random.Range(0, 100) < 50)
+                    if ((y == 0 && Random.Range(0, 100) < 70) || (y == 1 && Random.Range(0, 100) < 25))
                     {
                         if (_grid.ContainsKey(new(x - 1, y)) || _grid.ContainsKey(new(x, y)))
                         {
@@ -126,7 +126,7 @@ namespace BubbleFriend.Play
         {
             foreach (var obj in _grid)
             {
-                Destroy(obj.Value);
+                Destroy(obj.Value.gameObject);
             }
             if (_playBubbleInstance != null)
             {
