@@ -35,6 +35,7 @@ namespace BubbleFriend
     {
         public Sprite Sprite;
         public float AccelerationRate;
+        [Range(0f, 1f)] public float GrowthRate;
     }
 
     [AutoStaticsCleanup]
@@ -44,6 +45,9 @@ namespace BubbleFriend
 
         [SerializeField]
         private Dictionary<Need, NeedInfo> _needInfo = new();
+
+        [SerializeField]
+        private AgeInfo[] _ageData;
 
         public Flavor CurrentTaste { private set; get; }
 

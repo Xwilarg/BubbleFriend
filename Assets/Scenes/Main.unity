@@ -3142,7 +3142,25 @@ MonoBehaviour:
     value:
       TimeToDepleat: 1000
       DownModProba: 0.9
-  _needs: []
+  _ageData:
+  - Sprite: {fileID: 21300000, guid: 86147e75aa75c5f41bf652d1c715e06b, type: 3}
+    AccelerationRate: 2
+    GrowthRate: 0.5
+  - Sprite: {fileID: 21300000, guid: cdef0579cd654254d84e086147e57a69, type: 3}
+    AccelerationRate: 1.2
+    GrowthRate: 0.1
+  - Sprite: {fileID: 21300000, guid: 8da0c33b2fd95564eadb381a403532c5, type: 3}
+    AccelerationRate: 1
+    GrowthRate: 0.01
+  - Sprite: {fileID: 21300000, guid: c301d432e9a9a534a892dc90787a7c2a, type: 3}
+    AccelerationRate: 0.75
+    GrowthRate: 0.001
+  - Sprite: {fileID: 21300000, guid: 82b833dc0ba919f48a60eaa74d51c6a2, type: 3}
+    AccelerationRate: 0.5
+    GrowthRate: 0.00005
+  - Sprite: {fileID: 21300000, guid: 7cdc0a3203d0bc4469facaf87affa4ff, type: 3}
+    AccelerationRate: 0.5
+    GrowthRate: 0.00001
 --- !u!114 &1204694726
 MonoBehaviour:
   m_ObjectHideFlags: 0

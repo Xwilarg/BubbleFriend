@@ -8,5 +8,6 @@ namespace BubbleFriend.Persistency
     {
         public DateTime LastCheck { set; get; } = DateTime.MinValue;
         public Dictionary<Need, int> Needs { set; get; } = null;
+        public float Growth { set; get; }
     }
 }
