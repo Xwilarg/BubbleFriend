@@ -13,5 +13,13 @@
     "no_eat": "Bubble heeft geen honger",
 
     "reset_save": "Alle saves verwijderen",
-    "confirm": "Weet je het zeker?"
+    "confirm": "Weet je het zeker?",
+
+    "debug_food": "Honger: {0}%",
+    "debug_clean": "Vuilheid: {0}%",
+    "debug_play": "Verveling: {0}%",
+    "debug_happiness": "Vrolijkheid: {0}%",
+    "debug_growth": "Groei: {0}%",
+
+    "settings_flash": "Venster knipperen bij bericht inschakelen"
 }
