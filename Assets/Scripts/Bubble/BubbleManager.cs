@@ -107,15 +107,16 @@ namespace BubbleFriend
 
             CurrentTaste = GetRandomFlavor();
             StartCoroutine(ChangeTasteCoroutine());
+            UpdateDebugText();
         }
 
         private IEnumerator ChangeTasteCoroutine()
         {
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(600, 2000));
+                yield return new WaitForSeconds(Random.Range(500, 750));
                 if (
-                    !TimeManager.Instance.IsNight ||
+                    !TimeManager.Instance.IsNight &&
                     NeedOnTen(Need.Feed) >= 3
                 )
                 {

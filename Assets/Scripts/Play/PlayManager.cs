@@ -91,7 +91,7 @@ namespace BubbleFriend.Play
                 {
                     if ((y == 0 && Random.Range(0, 100) < 90) || (y == 1 && Random.Range(0, 100) < 50))
                     {
-                        if (y == 0 || (_grid.ContainsKey(new(x + 1, y)) || _grid.ContainsKey(new(x, y))))
+                        if (y == 0 || (_grid.ContainsKey(new(x + 1, y - 1)) || _grid.ContainsKey(new(x, y - 1))))
                         {
                             var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .25f, _startY - y - .25f), Quaternion.identity);
                             var c = bubble.GetComponent<PlayBubbleController>();
