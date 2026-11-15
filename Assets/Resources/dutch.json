@@ -5,5 +5,12 @@
     "feed": "Voeren",
     "play": "Spelen",
 
-    "language": "Taal"
+    "language": "Taal",
+
+    "no_play": "Bubble wilt nu niet spelen",
+    "no_wash": "Bubble is al schoon",
+    "no_eat": "Bubble heeft geen honger",
+
+    "reset_save": "Alle saves verwijderen",
+    "confirm": "Weet je het zeker?"
 }

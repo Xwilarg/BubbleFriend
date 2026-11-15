@@ -135,7 +135,7 @@ namespace BubbleFriend.Minigame
         {
             if (Minigame != Minigame.None) return;
 
-            int count = BubbleManager.Instance.NeedOnTen(Need.Play);
+            int count = Mathf.CeilToInt(BubbleManager.Instance.NeedOnTen(Need.Play) / 2f);
             if (count == 0)
             {
                 WarningManager.Instance.ShowWarning("no_play");
