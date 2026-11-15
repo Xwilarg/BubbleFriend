@@ -120,6 +120,8 @@ namespace BubbleFriend
                     PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
                     PersistencyManager<SaveData>.Instance.SaveData.Growth += _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].GrowthRate;
                     PersistencyManager<SaveData>.Instance.Save();
+
+                    CheckForGrowth();
                 }
             }
         }
@@ -128,6 +130,25 @@ namespace BubbleFriend
         {
             PersistencyManager<SaveData>.Instance.SaveData.Happiness = Mathf.Clamp(PersistencyManager<SaveData>.Instance.SaveData.Happiness + modifier, -10, 10);
             PersistencyManager<SaveData>.Instance.Save();
+
+            CheckForGrowth();
+        }
+
+        public void CheckForGrowth()
+        {
+            if (
+                PersistencyManager<SaveData>.Instance.SaveData.Growth >= 1f &&
+                PersistencyManager<SaveData>.Instance.SaveData.Happiness >= 5 &&
+                PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex < _ageData.Length - 1
+            )
+            {
+                PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex++;
+                PersistencyManager<SaveData>.Instance.SaveData.Growth = 0f;
+                PersistencyManager<SaveData>.Instance.SaveData.Happiness = 0;
+                PersistencyManager<SaveData>.Instance.Save();
+
+                _sr.sprite = _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].Sprite;
+            }
         }
 
         private Flavor GetRandomFlavor()
