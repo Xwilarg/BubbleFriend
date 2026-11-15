@@ -9,5 +9,8 @@
 
     "no_play": "Bubble don't want to play right now",
     "no_wash": "Bubble is already clean",
-    "no_eat": "Bubble is already full"
+    "no_eat": "Bubble is already full",
+
+    "reset_save": "Delete all saves",
+    "confirm": "Are you sure?"
 }

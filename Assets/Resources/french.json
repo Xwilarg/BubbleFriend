@@ -9,5 +9,8 @@
 
     "no_play": "Bubulle ne veut pas jouer pour l'instant",
     "no_wash": "Bubulle est deja propre",
-    "no_eat": "Bubulle n'a pas faim"
+    "no_eat": "Bubulle n'a pas faim",
+
+    "reset_save": "Supprimer sauvegardes",
+    "confirm": "Etes vous sur ?"
 }

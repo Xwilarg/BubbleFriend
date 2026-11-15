@@ -87,7 +87,7 @@ namespace BubbleFriend
                 PersistencyManager<SaveData>.Instance.SaveData.Needs = new();
                 foreach (var ni in _needInfo)
                 {
-                    PersistencyManager<SaveData>.Instance.SaveData.Needs.Add(ni.Key, ni.Value.TimeToDepleat);
+                    PersistencyManager<SaveData>.Instance.SaveData.Needs.Add(ni.Key, ni.Value.TimeToDepleat / 2);
                 }
                 PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
                 PersistencyManager<SaveData>.Instance.Save();
