@@ -14,6 +14,15 @@ namespace BubbleFriend.Bubble
         [SerializeField]
         private float _durationMin, _durationMax;
 
+        [SerializeField]
+        private GameObject _speech;
+
+        [SerializeField]
+        private SpriteRenderer _speechSR;
+
+        [SerializeField]
+        private Sprite _sleepIcon;
+
         private Vector2 _startingPos;
         private Vector2 _dir;
         private float _timer;
@@ -21,31 +30,40 @@ namespace BubbleFriend.Bubble
         private void Awake()
         {
             _startingPos = transform.position;
+            _speech.SetActive(false);
         }
 
         private void Update()
         {
             if (MinigameManager.Instance.Minigame != Minigame.Minigame.None)
             {
+                _speech.SetActive(false);
                 transform.position = Vector2.Lerp(transform.position, _startingPos, Time.deltaTime);
+            }
+            else if (TimeManager.Instance.IsNight)
+            {
+                _speech.SetActive(true);
+                _speechSR.sprite = _sleepIcon;
+
+                return;
             }
             else
             {
-                _timer -= Time.deltaTime;
-                if (_timer <= 0f)
-                {
-                    if (Vector2.Distance(transform.position, _startingPos) > _maxRange)
-                    {
-                        _dir = (_startingPos - (Vector2)transform.position).normalized;
-                    }
-                    else
-                    {
-                        _dir = Random.onUnitCircle;
-                    }
-                    _timer = Random.Range(_durationMin, _durationMax);
-                }
-
                 transform.Translate(_dir * Time.deltaTime * _speed);
+            }
+
+            _timer -= Time.deltaTime;
+            if (_timer <= 0f)
+            {
+                if (Vector2.Distance(transform.position, _startingPos) > _maxRange)
+                {
+                    _dir = (_startingPos - (Vector2)transform.position).normalized;
+                }
+                else
+                {
+                    _dir = Random.onUnitCircle;
+                }
+                _timer = Random.Range(_durationMin, _durationMax);
             }
         }
     }

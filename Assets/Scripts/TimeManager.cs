@@ -14,7 +14,7 @@ namespace BubbleFriend.Bubble
         [SerializeField]
         private bool _isUsingSystemTime;
 
-        [SerializeField]
+        [SerializeField, Range(0f, 1440f)]
         private float _debugTime;
 
         [SerializeField]
@@ -40,7 +40,16 @@ namespace BubbleFriend.Bubble
                 {
                     return DateTime.Now;
                 }
-                return new DateTime(0, 0, 0, Mathf.FloorToInt(_debugTime / 60), Mathf.FloorToInt(_debugTime % 60), 0);
+                return new DateTime(2026, 1, 1, Mathf.FloorToInt(_debugTime / 60), Mathf.FloorToInt(_debugTime % 60), 0);
+            }
+        }
+
+        public bool IsNight
+        {
+            get
+            {
+                var curr = CurrentTime;
+                return curr.Hour < _dayStart || curr.Hour >= _dayEnd;
             }
         }
 
@@ -57,7 +66,7 @@ namespace BubbleFriend.Bubble
         {
             var now = CurrentTime;
             var nowNumeric = now.Hour + (now.Minute / 60f);
-            if (nowNumeric < _dayStart || nowNumeric >= _dayEnd) _cam.backgroundColor = _dayColor.Evaluate(1f);
+            if (IsNight) _cam.backgroundColor = _dayColor.Evaluate(1f);
             else if (nowNumeric < _midday) _cam.backgroundColor = _dayColor.Evaluate(1f - (nowNumeric - _dayStart) / _durationMorning);
             else _cam.backgroundColor = _dayColor.Evaluate(1f - (_dayEnd - nowNumeric) / _durationAfternoon);
 
