@@ -27,6 +27,14 @@ namespace BubbleFriend.Bubble
         private Vector2 _dir;
         private float _timer;
 
+        private float _throughtTimer = 0f;
+
+        public void ShowThought(Sprite sprite)
+        {
+            _throughtTimer = 3f;
+            _speechSR.sprite = sprite;
+        }
+
         private void Awake()
         {
             _startingPos = transform.position;
@@ -35,15 +43,27 @@ namespace BubbleFriend.Bubble
 
         private void Update()
         {
+            if (_throughtTimer > 0f)
+            {
+                _throughtTimer -= Time.deltaTime;
+                if (_throughtTimer <= 0f)
+                {
+                    _speech.SetActive(false);
+                }
+            }
+
             if (MinigameManager.Instance.Minigame != Minigame.Minigame.None)
             {
-                _speech.SetActive(false);
+                if (_throughtTimer <= 0f) _speech.SetActive(false);
                 transform.position = Vector2.Lerp(transform.position, _startingPos, Time.deltaTime);
             }
             else if (TimeManager.Instance.IsNight)
             {
-                _speech.SetActive(true);
-                _speechSR.sprite = _sleepIcon;
+                if (_throughtTimer <= 0f)
+                {
+                    _speech.SetActive(true);
+                    _speechSR.sprite = _sleepIcon;
+                }
 
                 return;
             }
