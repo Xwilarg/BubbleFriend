@@ -34,6 +34,8 @@ namespace BubbleFriend.Bubble
             _throughtTimer = 3f;
             _speech.SetActive(true);
             _speechSR.sprite = sprite;
+
+            SystemManager.Instance.FlashWindow();
         }
 
         private void Awake()
