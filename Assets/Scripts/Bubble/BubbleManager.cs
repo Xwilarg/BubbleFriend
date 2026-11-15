@@ -61,6 +61,9 @@ namespace BubbleFriend
         [SerializeField]
         private Dictionary<Flavor, FlavorSprite> _flavorSprites;
 
+        [SerializeField]
+        private BubbleController _player;
+
         public int NeedOnTen(Need need)
         {
             var perc = 1f - (PersistencyManager<SaveData>.Instance.SaveData.Needs[need] / (float)_needInfo[need].TimeToDepleat);
@@ -102,7 +105,14 @@ namespace BubbleFriend
             while (true)
             {
                 yield return new WaitForSeconds(Random.Range(600, 2000));
-                if (!TimeManager.Instance.IsNight) CurrentTaste = GetRandomFlavor();
+                if (
+                    !TimeManager.Instance.IsNight ||
+                    NeedOnTen(Need.Feed) >= 3
+                )
+                {
+                    CurrentTaste = GetRandomFlavor();
+                    _player.ShowThought(_flavorSprites[CurrentTaste].BellySprite);
+                }
             }
         }
 
