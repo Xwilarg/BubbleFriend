@@ -38,6 +38,12 @@ namespace BubbleFriend
         [Range(0f, 1f)] public float GrowthRate;
     }
 
+    [System.Serializable]
+    public class FlavorSprite
+    {
+        public Sprite SoapSprite, BellySprite;
+    }
+
     [AutoStaticsCleanup]
     public partial class BubbleManager : MonoBehaviour
     {
@@ -52,6 +58,8 @@ namespace BubbleFriend
         private SpriteRenderer _sr;
 
         public Flavor CurrentTaste { private set; get; }
+        [SerializeField]
+        private Dictionary<Flavor, FlavorSprite> _flavorSprites;
 
         public int NeedOnTen(Need need)
         {

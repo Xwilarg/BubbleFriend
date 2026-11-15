@@ -3161,6 +3161,19 @@ MonoBehaviour:
   - Sprite: {fileID: 21300000, guid: 7cdc0a3203d0bc4469facaf87affa4ff, type: 3}
     AccelerationRate: 0.5
     GrowthRate: 0.00001
+  _flavorSprites:
+  - key: 0
+    value:
+      SoapSprite: {fileID: 21300000, guid: f2aa9d12a1c2093428777b0c00f52492, type: 3}
+      BellySprite: {fileID: 21300000, guid: fb754b73063f65b4790aa174fe9a5101, type: 3}
+  - key: 2
+    value:
+      SoapSprite: {fileID: 21300000, guid: 0655fde46fbc2d94a9418ed08c7ead68, type: 3}
+      BellySprite: {fileID: 21300000, guid: eaf97f3ee6f26834ba7d5c771593e026, type: 3}
+  - key: 1
+    value:
+      SoapSprite: {fileID: 21300000, guid: d41435f4bb244494cab8959d0893ebe2, type: 3}
+      BellySprite: {fileID: 21300000, guid: 184c7a6eb34182f44ab3607c7b518537, type: 3}
 --- !u!114 &1204694726
 MonoBehaviour:
   m_ObjectHideFlags: 0
