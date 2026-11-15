@@ -38,6 +38,18 @@ namespace BubbleFriend
             ToggleFlavorMenu(false);
         }
 
+        private void Start()
+        {
+            Translate.Instance.CurrentLanguage = PersistencyManager<SaveData>.Instance.SaveData.CurrentLanguage;
+        }
+
+        public void UpdateLanguage(int value)
+        {
+            var lang = _languageDropdown.options[value].text;
+            Translate.Instance.CurrentLanguage = lang;
+            PersistencyManager<SaveData>.Instance.SaveData.CurrentLanguage = lang;
+        }
+
         public void ToggleCollapse()
         {
             _isCollapsed = !_isCollapsed;
@@ -75,11 +87,6 @@ namespace BubbleFriend
                 PersistencyManager<SaveData>.Instance.DeleteSave();
                 SceneManager.LoadScene("Main");
             }
-        }
-
-        public void UpdateLanguage(int value)
-        {
-            Translate.Instance.CurrentLanguage = _languageDropdown.options[value].text;
         }
 
         public void ToggleFlavorMenu(bool value)

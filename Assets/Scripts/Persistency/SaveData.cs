@@ -11,5 +11,8 @@ namespace BubbleFriend.Persistency
         public int GrowthIndex { set; get; }
         public float Growth { set; get; }
         public int Happiness { set; get; }
+
+        public string CurrentLanguage { set; get; } = "English";
+        public bool FlashOnNotification { set; get; } = true;
     }
 }
