@@ -106,7 +106,7 @@ namespace BubbleFriend
                 var percent = Mathf.Clamp01((float)diff / 24f);
                 foreach (var ni in _needInfo)
                 {
-                    PersistencyManager<SaveData>.Instance.SaveData.Needs[ni.Key] = Mathf.RoundToInt(ni.Value.TimeToDepleat * percent);
+                    PersistencyManager<SaveData>.Instance.SaveData.Needs[ni.Key] = Mathf.Clamp(PersistencyManager<SaveData>.Instance.SaveData.Needs[ni.Key] + Mathf.RoundToInt(ni.Value.TimeToDepleat * percent), 0, ni.Value.TimeToDepleat);
                 }
                 PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
                 PersistencyManager<SaveData>.Instance.Save();

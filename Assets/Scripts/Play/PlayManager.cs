@@ -39,7 +39,7 @@ namespace BubbleFriend.Play
         {
             _canShoot = true;
             _playBubbleInstance = Instantiate(_playBubblePrefab, _launchPoint.transform.position, Quaternion.identity);
-            _playBubbleInstance.GetComponent<PlayBubbleController>().SetId(Random.Range(0, 3));
+            _playBubbleInstance.GetComponent<PlayBubbleController>().SetId(Random.Range(0, 4));
         }
 
         public void GetAdjacents(Vector2Int pos, int id, List<Vector2Int> elements)
