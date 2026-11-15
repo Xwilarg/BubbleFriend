@@ -4,6 +4,8 @@ using Sketch.Persistency;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using TMPro;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
@@ -66,6 +68,9 @@ namespace BubbleFriend
 
         [SerializeField]
         private Sprite _spriteHappy, _spriteUnhappy;
+
+        [SerializeField]
+        private TMP_Text _debugText;
 
         public int NeedOnTen(Need need)
         {
@@ -147,6 +152,16 @@ namespace BubbleFriend
                     CheckForGrowth();
                 }
             }
+
+#if UNITY_EDITOR
+            StringBuilder str = new();
+            str.AppendLine($"Food need: {NeedOnTen(Need.Feed) * 100}%");
+            str.AppendLine($"Clean need: {NeedOnTen(Need.Clean) * 100}%");
+            str.AppendLine($"Play need: {NeedOnTen(Need.Play) * 100}%");
+            str.AppendLine($"Happiness: {PersistencyManager<SaveData>.Instance.SaveData.Happiness}");
+            str.AppendLine($"Growth: {PersistencyManager<SaveData>.Instance.SaveData.Growth * 100f}%");
+            _debugText.text = str.ToString();
+#endif
         }
 
         public void UpdateHappiness(int modifier)
@@ -154,7 +169,7 @@ namespace BubbleFriend
             PersistencyManager<SaveData>.Instance.SaveData.Happiness = Mathf.Clamp(PersistencyManager<SaveData>.Instance.SaveData.Happiness + modifier, -10, 10);
             PersistencyManager<SaveData>.Instance.Save();
 
-            CheckForGrowth();
+            if (modifier > 0) CheckForGrowth();
 
             _player.ShowThought(modifier > 0 ? _spriteHappy : _spriteUnhappy);
         }
