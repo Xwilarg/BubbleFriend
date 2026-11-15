@@ -81,6 +81,8 @@ namespace BubbleFriend
             else
             {
                 _sr.sprite = _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].Sprite;
+
+                // TODO: Check for time elapsed and update needs
             }
 
             CurrentTaste = GetRandomFlavor();
