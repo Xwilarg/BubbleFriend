@@ -25,6 +25,8 @@ namespace BubbleFriend.Play
         private int _startY = 5;
         private int _startX = 3;
 
+        private int _objective = 0;
+
         private Dictionary<Vector2Int, PlayBubbleController> _grid = new();
 
         private void Awake()
@@ -78,8 +80,10 @@ namespace BubbleFriend.Play
             );
         }
 
-        public void StartGame()
+        public void StartGame(int count)
         {
+            _objective = count;
+
             var xMax = (_startX * 2 + 1) * 2 + 1;
             for (int y = 0; y < 6; y++)
             {
@@ -111,6 +115,13 @@ namespace BubbleFriend.Play
             SpawnBubble();
         }
 
+        public void ValidateMatch()
+        {
+            _objective--;
+            BubbleManager.Instance.ClearNeed(Need.Play, .1f);
+            if (_objective == 0) EndGame(false);
+        }
+
         public void EndGame(bool badEnding)
         {
             foreach (var obj in _grid)
@@ -126,10 +137,7 @@ namespace BubbleFriend.Play
             MinigameManager.Instance.Minigame = Minigame.Minigame.None;
             _canShoot = true;
 
-            if (badEnding)
-            {
-                BubbleManager.Instance.UpdateHappiness(-1);
-            }
+            BubbleManager.Instance.UpdateHappiness(badEnding ? -1 : 2);
         }
 
         private float SqrtDistance(Vector2 a, Vector2 b) // Distance without sqrt for optimization

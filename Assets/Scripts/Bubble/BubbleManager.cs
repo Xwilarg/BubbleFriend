@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BubbleFriend.Bubble;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Scripting.LifecycleManagement;
@@ -44,9 +45,13 @@ namespace BubbleFriend
         [SerializeField, Tooltip("Debug only, do not modify")]
         private Dictionary<Need, int> _needs = new();
 
-        private Flavor _currentTaste;
+        public Flavor CurrentTaste { private set; get; }
 
-        public float CleaningNeed => 1f - (_needs[Need.Clean] / (float)_needInfo[Need.Clean].TimeToDepleat);
+        public int NeedOnTen(Need need)
+        {
+            var perc = 1f - (_needs[need] / (float)_needInfo[need].TimeToDepleat);
+            return Mathf.Clamp(Mathf.RoundToInt(perc * 10f), 0, 10);
+        }
 
         private float _checkTimer = 1f;
         private int _happiness;
@@ -61,7 +66,7 @@ namespace BubbleFriend
                 _needs.Add(ni.Key, ni.Value.TimeToDepleat);
             }
 
-            _currentTaste = GetRandomFlavor();
+            CurrentTaste = GetRandomFlavor();
             StartCoroutine(ChangeTasteCoroutine());
         }
 
@@ -70,7 +75,7 @@ namespace BubbleFriend
             while (true)
             {
                 yield return new WaitForSeconds(Random.Range(600, 2000));
-                _currentTaste = GetRandomFlavor();
+                if (!TimeManager.Instance.IsNight) CurrentTaste = GetRandomFlavor();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using BubbleFriend.Play;
+﻿using BubbleFriend.Bubble;
+using BubbleFriend.Play;
 using Sketch.Common;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
@@ -74,6 +75,7 @@ namespace BubbleFriend.Minigame
                             {
                                 _timer = 0f;
                                 Minigame = Minigame.None;
+                                BubbleManager.Instance.ClearNeed(Need.Clean, 1f);
                                 BubbleManager.Instance.UpdateHappiness(1);
                                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                             }
@@ -88,12 +90,18 @@ namespace BubbleFriend.Minigame
         public void StartCleaningMinigame()
         {
             if (Minigame != Minigame.None) return;
+            _dirtCount = BubbleManager.Instance.NeedOnTen(Need.Clean);
+
+            if (_dirtCount == 0)
+            {
+                WarningManager.Instance.ShowWarning("no_wash");
+                return;
+            }
 
             Minigame = Minigame.Cleaning;
             _timer = 0f;
             Cursor.SetCursor(_cleaningCursor, Vector2.zero, CursorMode.Auto);
 
-            _dirtCount = Mathf.Clamp(Mathf.RoundToInt(BubbleManager.Instance.CleaningNeed * 10f), 1, 10);
             for (int i = 0; i < _dirtCount; i++)
             {
                 var dirt = Instantiate(_dirtPrefab, _bubble);
@@ -104,17 +112,38 @@ namespace BubbleFriend.Minigame
             _lastPos = GetWorldMousePos(_cam) ?? Vector2.zero;
         }
 
+        public void TryOpenFoodMenu()
+        {
+            bool allowed = BubbleManager.Instance.NeedOnTen(Need.Feed) > 0;
+            if (!allowed)
+            {
+                WarningManager.Instance.ShowWarning("no_eat");
+                return;
+            }
+            MenuManager.Instance.ToggleFlavorMenu(true);
+        }
+
         public void GiveFood(int flavor)
         {
+            var isGoodFood = BubbleManager.Instance.CurrentTaste == (Flavor)flavor;
             MenuManager.Instance.ToggleFlavorMenu(false);
+            BubbleManager.Instance.ClearNeed(Need.Feed, .1f);
+            BubbleManager.Instance.UpdateHappiness(isGoodFood ? 1 : -1);
         }
 
         public void StartPlay()
         {
             if (Minigame != Minigame.None) return;
 
+            int count = BubbleManager.Instance.NeedOnTen(Need.Play);
+            if (count == 0)
+            {
+                WarningManager.Instance.ShowWarning("no_play");
+                return;
+            }
+
             Minigame = Minigame.Play;
-            PlayManager.Instance.StartGame();
+            PlayManager.Instance.StartGame(count);
         }
 
         public Vector2? GetWorldMousePos(Camera cam)
