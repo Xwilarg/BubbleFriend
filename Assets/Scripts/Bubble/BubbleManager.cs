@@ -49,6 +49,8 @@ namespace BubbleFriend
         [SerializeField]
         private AgeInfo[] _ageData;
 
+        private SpriteRenderer _sr;
+
         public Flavor CurrentTaste { private set; get; }
 
         public int NeedOnTen(Need need)
@@ -65,6 +67,8 @@ namespace BubbleFriend
         {
             Instance = this;
 
+            _sr = GetComponent<SpriteRenderer>();
+
             if (PersistencyManager<SaveData>.Instance.SaveData.Needs == null)
             {
                 PersistencyManager<SaveData>.Instance.SaveData.Needs = new();
@@ -74,6 +78,10 @@ namespace BubbleFriend
                 }
                 PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
                 PersistencyManager<SaveData>.Instance.Save();
+            }
+            else
+            {
+                _sr.sprite = _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].Sprite;
             }
 
             CurrentTaste = GetRandomFlavor();
@@ -111,6 +119,7 @@ namespace BubbleFriend
                 if (_checkCount == 120)
                 {
                     PersistencyManager<SaveData>.Instance.SaveData.LastCheck = System.DateTime.UtcNow;
+                    PersistencyManager<SaveData>.Instance.SaveData.Growth += _ageData[PersistencyManager<SaveData>.Instance.SaveData.GrowthIndex].GrowthRate;
                     PersistencyManager<SaveData>.Instance.Save();
                 }
             }
