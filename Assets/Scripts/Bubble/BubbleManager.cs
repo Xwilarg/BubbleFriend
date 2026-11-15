@@ -159,7 +159,7 @@ namespace BubbleFriend
             }
         }
 
-        private void UpdateDebugText()
+        public void UpdateDebugText()
         {
             StringBuilder str = new();
             str.AppendLine(Translate.Instance.Tr("debug_food", (NeedOnTen(Need.Feed) * 10).ToString()));

@@ -48,6 +48,9 @@ namespace BubbleFriend
             var lang = _languageDropdown.options[value].text;
             Translate.Instance.CurrentLanguage = lang;
             PersistencyManager<SaveData>.Instance.SaveData.CurrentLanguage = lang;
+            PersistencyManager<SaveData>.Instance.Save();
+
+            BubbleManager.Instance.UpdateDebugText();
         }
 
         public void ToggleCollapse()
