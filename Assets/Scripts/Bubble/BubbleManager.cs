@@ -27,6 +27,13 @@ namespace BubbleFriend
         [Range(0f, 1f)] public float DownModProba;
     }
 
+    [System.Serializable]
+    public class AgeInfo
+    {
+        public Sprite Sprite;
+        public float AccelerationRate;
+    }
+
     [AutoStaticsCleanup]
     public partial class BubbleManager : MonoBehaviour
     {
@@ -94,9 +101,10 @@ namespace BubbleFriend
             return flavors[Random.Range(0, flavors.Length)];
         }
 
-        public void ClearNeed(Need need)
+        public void ClearNeed(Need need, float percent)
         {
-            _needs[need] = _needInfo[need].TimeToDepleat;
+            var max = _needInfo[need].TimeToDepleat;
+            _needs[need] = Mathf.RoundToInt(Mathf.Clamp(_needs[need] + (max * percent), 0f, max));
         }
     }
 }
