@@ -57,12 +57,15 @@ namespace BubbleFriend.Play
             {
                 for (var x = 0; x < xMax; x++)
                 {
-                    if (y == 0 && Random.Range(0, 100) < 90)
+                    if ((y == 0 && Random.Range(0, 100) < 90) || (y == 1 && Random.Range(0, 100) < 20))
                     {
-                        var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .25f, _startY - y - .25f), Quaternion.identity);
-                        var c = bubble.GetComponent<PlayBubbleController>();
-                        c.SetId(Random.Range(0, 3));
-                        c.LockOnGrid();
+                        if (y == 0 || (_grid.ContainsKey(new(x + 1, y)) || _grid.ContainsKey(new(x, y))))
+                        {
+                            var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .25f, _startY - y - .25f), Quaternion.identity);
+                            var c = bubble.GetComponent<PlayBubbleController>();
+                            c.SetId(Random.Range(0, 4));
+                            c.LockOnGrid();
+                        }
                     }
                     if (y == 0 && Random.Range(0, 100) < 50)
                     {
@@ -70,7 +73,7 @@ namespace BubbleFriend.Play
                         {
                             var bubble = Instantiate(_playBubblePrefab, new(-_startX + x / 2f - .5f, _startY - y - .75f), Quaternion.identity);
                             var c = bubble.GetComponent<PlayBubbleController>();
-                            c.SetId(Random.Range(0, 3));
+                            c.SetId(Random.Range(0, 4));
                             c.LockOnGrid();
                         }
                     }

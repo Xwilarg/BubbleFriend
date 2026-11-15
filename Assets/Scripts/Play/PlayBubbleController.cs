@@ -27,9 +27,10 @@ namespace BubbleFriend.Play
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             sr.color = _id switch
             {
-                0 => Color.red,
-                1 => Color.green,
-                2 => Color.blue,
+                0 => new Color(1f, 0f, 0.094f),
+                1 => new Color(0.478f, 1f, 0.274f),
+                2 => new Color(0.219f, 0.952f, 0.992f),
+                3 => new Color(0.556f, 0.090f, 0.968f),
                 _ => Color.white
             };
         }
