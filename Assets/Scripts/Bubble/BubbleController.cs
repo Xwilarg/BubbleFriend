@@ -32,6 +32,7 @@ namespace BubbleFriend.Bubble
         public void ShowThought(Sprite sprite)
         {
             _throughtTimer = 3f;
+            _speech.SetActive(true);
             _speechSR.sprite = sprite;
         }
 

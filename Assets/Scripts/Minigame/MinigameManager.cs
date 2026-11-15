@@ -127,7 +127,7 @@ namespace BubbleFriend.Minigame
         {
             var isGoodFood = BubbleManager.Instance.CurrentTaste == (Flavor)flavor;
             MenuManager.Instance.ToggleFlavorMenu(false);
-            BubbleManager.Instance.ClearNeed(Need.Feed, .1f);
+            BubbleManager.Instance.ClearNeed(Need.Feed, 1f);
             BubbleManager.Instance.UpdateHappiness(isGoodFood ? 1 : -1);
         }
 
