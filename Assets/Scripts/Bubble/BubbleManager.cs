@@ -64,6 +64,9 @@ namespace BubbleFriend
         [SerializeField]
         private BubbleController _player;
 
+        [SerializeField]
+        private Sprite _spriteHappy, _spriteUnhappy;
+
         public int NeedOnTen(Need need)
         {
             var perc = 1f - (PersistencyManager<SaveData>.Instance.SaveData.Needs[need] / (float)_needInfo[need].TimeToDepleat);
@@ -152,6 +155,8 @@ namespace BubbleFriend
             PersistencyManager<SaveData>.Instance.Save();
 
             CheckForGrowth();
+
+            _player.ShowThought(modifier > 0 ? _spriteHappy : _spriteUnhappy);
         }
 
         public void CheckForGrowth()

@@ -3175,6 +3175,8 @@ MonoBehaviour:
       SoapSprite: {fileID: 21300000, guid: d41435f4bb244494cab8959d0893ebe2, type: 3}
       BellySprite: {fileID: 21300000, guid: 184c7a6eb34182f44ab3607c7b518537, type: 3}
   _player: {fileID: 2064684758}
+  _spriteHappy: {fileID: 21300000, guid: 0de0abbbba652e64f8d9cffc468ffb80, type: 3}
+  _spriteUnhappy: {fileID: 21300000, guid: d661b79ee64e8024885b81bae443bca1, type: 3}
 --- !u!114 &1204694726
 MonoBehaviour:
   m_ObjectHideFlags: 0
